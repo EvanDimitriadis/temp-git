@@ -8,6 +8,23 @@ MyId = "76561198015220072"
 friend1 = "76561198024620160"
 friend2 = "76561198118932724"
 
+def PlayingNow (steamId,text):
+
+	url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key="
+	search = url + keyApi +"&steamids=" + str(steamId) 
+	with urllib.request.urlopen(search) as http:
+		print(http)
+		data = json.load(http)
+		#game = (data['response']['players']['gameextrainfo'])
+		gamersList = data['response']['players']
+		string = str(gamersList)
+		pos = string.find('gameextrainfo')
+		if pos:
+			print("Now Playing: " + string[pos+16:-2].split("'")[1])
+		else:
+			print('Not found')
+		return (string[pos+16:-2].split("'")[-2])
+
 def IsPlayingSharedGame (steamId,appIdPlaying,text):
 
 	url =  "http://api.steampowered.com/IPlayerService/IsPlayingSharedGame/v0001/?key="
@@ -40,11 +57,11 @@ def GetListOfGames (steamId,text):
 
 def main():
     
-	CivVI = "289070"
-	SpellForce = "311290"
-	IsPlayingSharedGame(friend2,SpellForce,"json")
-	GetRecentlyPlayedGames(friend2,10,"json")
-	#GetListOfGames(friend1,"json")
+	gameid = PlayingNow(friend2,"json")
+	print(gameid)
+	IsPlayingSharedGame(friend2,gameid,"json")
+	#GetRecentlyPlayedGames(friend2,10,"json")
+	GetListOfGames(friend1,"json")
 	pass
 
 if __name__ == '__main__':
