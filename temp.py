@@ -1,6 +1,7 @@
 import sys
 import urllib.request
 import json
+from bs4 import BeautifulSoup
 
 keyApi = "449680A29CD8D9E24881E7DFA3D823C7"
 MyId = "76561198015220072"
@@ -13,7 +14,6 @@ def PlayingNow (steamId,text):
 	url = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key="
 	search = url + keyApi +"&steamids=" + str(steamId) 
 	with urllib.request.urlopen(search) as http:
-		print(http)
 		data = json.load(http)
 		#game = (data['response']['players']['gameextrainfo'])
 		gamersList = data['response']['players']
